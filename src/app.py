@@ -36,6 +36,7 @@ def add_new_member():
     body = request.get_json()
     
     member = {
+        "id" : body["id"],
         "age" : body["age"],
         "first_name": body["first_name"],
         "lucky_numbers": [4,3,2]
@@ -43,16 +44,16 @@ def add_new_member():
     jackson_family.add_member(member)
     return jsonify(member), 200
 
-@app.route('/member/<int:member_id>', methods=['DELETE'])
-def delete_member(member_id): 
-    response = jackson_family.delete_member(member_id)
+@app.route('/member/<int:id>', methods=['DELETE'])
+def delete_member(id): 
+    response = jackson_family.delete_member(id)
     if response == True:
-        return "The member have been succesfully deleted", 200
+        return {'done': True}, 200
     return "The memeber you tried to delete was not found", 401
 
-@app.route('/member/<int:member_id>', methods=['GET'])
-def get_member_by_id(member_id): 
-    member = jackson_family.get_member(member_id)
+@app.route('/member/<int:id>', methods=['GET'])
+def get_member_by_id(id): 
+    member = jackson_family.get_member(id)
     return member, 200
 
 # this only runs if `$ python src/app.py` is executed
